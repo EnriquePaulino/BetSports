@@ -1,0 +1,113 @@
+﻿@model IEnumerable<BetSports.Web.Data.Entities.Banking>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Document)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Owner)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.MinutesCancelTicket)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaximumTicketsCancelDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinimumTicketAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinimumPlaysBuyPoints)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DailySaleLimit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeactivationBalance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinimumPlaysFuture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MultiPlayMoneyLine)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToPrint)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Document)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Owner)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinutesCancelTicket)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaximumTicketsCancelDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinimumTicketAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinimumPlaysBuyPoints)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DailySaleLimit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeactivationBalance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinimumPlaysFuture)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MultiPlayMoneyLine)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ToPrint)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

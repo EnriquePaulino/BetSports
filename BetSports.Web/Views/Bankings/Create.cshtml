@@ -1,0 +1,102 @@
+﻿@model BetSports.Web.Data.Entities.Banking
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Banking</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Document" class="control-label"></label>
+                <input asp-for="Document" class="form-control" />
+                <span asp-validation-for="Document" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Owner" class="control-label"></label>
+                <input asp-for="Owner" class="form-control" />
+                <span asp-validation-for="Owner" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinutesCancelTicket" class="control-label"></label>
+                <input asp-for="MinutesCancelTicket" class="form-control" />
+                <span asp-validation-for="MinutesCancelTicket" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximumTicketsCancelDay" class="control-label"></label>
+                <input asp-for="MaximumTicketsCancelDay" class="form-control" />
+                <span asp-validation-for="MaximumTicketsCancelDay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimumTicketAmount" class="control-label"></label>
+                <input asp-for="MinimumTicketAmount" class="form-control" />
+                <span asp-validation-for="MinimumTicketAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimumPlaysBuyPoints" class="control-label"></label>
+                <input asp-for="MinimumPlaysBuyPoints" class="form-control" />
+                <span asp-validation-for="MinimumPlaysBuyPoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailySaleLimit" class="control-label"></label>
+                <input asp-for="DailySaleLimit" class="form-control" />
+                <span asp-validation-for="DailySaleLimit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeactivationBalance" class="control-label"></label>
+                <input asp-for="DeactivationBalance" class="form-control" />
+                <span asp-validation-for="DeactivationBalance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimumPlaysFuture" class="control-label"></label>
+                <input asp-for="MinimumPlaysFuture" class="form-control" />
+                <span asp-validation-for="MinimumPlaysFuture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MultiPlayMoneyLine" class="control-label"></label>
+                <input asp-for="MultiPlayMoneyLine" class="form-control" />
+                <span asp-validation-for="MultiPlayMoneyLine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="ToPrint" /> @Html.DisplayNameFor(model => model.ToPrint)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

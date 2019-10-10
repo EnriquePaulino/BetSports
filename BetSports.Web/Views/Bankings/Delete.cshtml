@@ -1,0 +1,105 @@
+﻿@model BetSports.Web.Data.Entities.Banking
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Banking</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Document)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Document)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Owner)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Owner)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MinutesCancelTicket)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MinutesCancelTicket)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MaximumTicketsCancelDay)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MaximumTicketsCancelDay)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MinimumTicketAmount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MinimumTicketAmount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MinimumPlaysBuyPoints)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MinimumPlaysBuyPoints)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DailySaleLimit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DailySaleLimit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DeactivationBalance)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeactivationBalance)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MinimumPlaysFuture)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MinimumPlaysFuture)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MultiPlayMoneyLine)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MultiPlayMoneyLine)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ToPrint)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ToPrint)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
