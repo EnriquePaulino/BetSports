@@ -1,153 +1,216 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BetSports.Web.Data.Entities;
+using BetSports.Web.Data.Repositories;
+using BetSports.Web.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using BetSports.Web.Data;
-using BetSports.Web.Data.Entities;
+using System;
+using System.Threading.Tasks;
 
 namespace BetSports.Web.Controllers
 {
+    [Authorize]
     public class BankingsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IBankingRepository _bankingRepository;
+        private readonly IUserHelper _userHelper;
+        private readonly ICompanyRepository _companyRepository;
 
-        public BankingsController(DataContext context)
+        public BankingsController(
+            IBankingRepository bankingRepository,
+            IUserHelper userHelper,
+            ICompanyRepository companyRepository)
         {
-            _context = context;
+            _bankingRepository = bankingRepository;
+            _userHelper = userHelper;
+            _companyRepository = companyRepository;
         }
 
-        // GET: Bankings
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Bankings.ToListAsync());
+            return View(_bankingRepository.GetAll());
         }
 
-        // GET: Bankings/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var banking = await _context.Bankings
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (banking == null)
-            {
-                return NotFound();
-            }
-
-            return View(banking);
-        }
-
-        // GET: Bankings/Create
         public IActionResult Create()
         {
+            //var model = new BankingViewModel
+            //{
+
+            //    ListZone = _bankingRepository.GetComboZonas()
+            //};
+
             return View();
         }
 
-        // POST: Bankings/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Document,Name,Owner,Location,MinutesCancelTicket,MaximumTicketsCancelDay,MinimumTicketAmount,MinimumPlaysBuyPoints,DailySaleLimit,DeactivationBalance,MinimumPlaysFuture,MultiPlayMoneyLine,Active,ToPrint")] Banking banking)
+        public async Task<IActionResult> Create(Banking banking)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(banking);
-                await _context.SaveChangesAsync();
+                var company = await _companyRepository.GetCompany(1);
+
+                banking.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                banking.IdType = company.IdType;
+                banking.FechaHora = DateTime.UtcNow;
+                await _bankingRepository.CreateAsync(banking);
                 return RedirectToAction(nameof(Index));
             }
             return View(banking);
         }
 
-        // GET: Bankings/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new NotFoundViewResult("BankingNotFound");
+        //    }
 
-            var banking = await _context.Bankings.FindAsync(id);
-            if (banking == null)
-            {
-                return NotFound();
-            }
-            return View(banking);
-        }
+        //    var banca = await _bankingRepository.GetByIdAsync(id.Value);
+        //    if (banca == null)
+        //    {
+        //        return new NotFoundViewResult("BankingNotFound");
+        //    }
 
-        // POST: Bankings/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Document,Name,Owner,Location,MinutesCancelTicket,MaximumTicketsCancelDay,MinimumTicketAmount,MinimumPlaysBuyPoints,DailySaleLimit,DeactivationBalance,MinimumPlaysFuture,MultiPlayMoneyLine,Active,ToPrint")] Banking banking)
-        {
-            if (id != banking.Id)
-            {
-                return NotFound();
-            }
+        //    var view = this.ToBancaViewModel(banca);
+        //    return View(view);
+        //}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(banking);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BankingExists(banking.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(banking);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(LottBanking Banking)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            var company = await _companyRepository.GetCompany(1);
 
-        // GET: Bankings/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //            // TODO: Pending to change to: this.User.Identity.Name
+        //            Banking.User = await _userHelper.GetUserByEmailAsync("paulinoenrique@gmail.com");
+        //            Banking.IdType = company.IdType;
+        //            Banking.FechaHora = DateTime.UtcNow;
+        //            await _bankingRepository.UpdateAsync(Banking);
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!await _bankingRepository.ExistAsync(Banking.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-            var banking = await _context.Bankings
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (banking == null)
-            {
-                return NotFound();
-            }
+        //    return View(Banking);
+        //}
 
-            return View(banking);
-        }
+        //private BankingViewModel ToBancaViewModel(Banking banking)
+        //{
+        //    return new BankingViewModel
+        //    {
+        //        IdType = banking.IdType,
+        //        Name = banking.Name,
+        //        Address = banking.Address,
+        //        PhoneNumber = banking.PhoneNumber,
+        //        CxcCity = banking.CxcCity,
+        //        DiaMaxPagoTcket = banking.DiaMaxPagoTcket,
+        //        CxcZone = banking.CxcZone,
+        //        ListZone = _bankingRepository.GetComboZonas(),
+        //        PvdPrimera = banking.PvdPrimera,
+        //        PvdSegunda = banking.PvdSegunda,
+        //        PvdTercera = banking.PvdTercera,
+        //        PvdDobles = banking.PvdDobles,
+        //        PvpPrimera = banking.PvpPrimera,
+        //        PvpSegunda = banking.PvpSegunda,
+        //        PvpTercera = banking.PvpTercera,
+        //        PvpSecuencia = banking.PvpSecuencia,
+        //        PvtPrimera = banking.PvtPrimera,
+        //        PvtSegunda = banking.PvtSegunda,
+        //        PvCash3StraightSecuenia = banking.PvCash3StraightSecuenia,
+        //        PvCash3StraightDobles = banking.PvCash3StraightDobles,
+        //        PvCash3Box3Way2Identicos = banking.PvCash3Box3Way2Identicos,
+        //        PvCash3Box6Way3Identicos = banking.PvCash3Box6Way3Identicos,
+        //        PvPlay4StraightSecuencia = banking.PvPlay4StraightSecuencia,
+        //        PvPlay4StraightDobles = banking.PvPlay4StraightDobles,
+        //        PvPlay4Box4Way3Identicos = banking.PvPlay4Box4Way3Identicos,
+        //        PvPlay4Box6Way6Identicos = banking.PvPlay4Box6Way6Identicos,
+        //        PvPlay4Box12Way2Identicos = banking.PvPlay4Box12Way2Identicos,
+        //        PvPick5StraightSecuencia = banking.PvPick5StraightSecuencia,
+        //        PvPick5StraightDobles = banking.PvPick5StraightDobles,
+        //        PvPick5Box5Way4Identicos = banking.PvPick5Box5Way4Identicos,
+        //        PvPick5Box10Way3Identicos = banking.PvPick5Box10Way3Identicos,
+        //        PvPick5Box20Way3Identicos = banking.PvPick5Box20Way3Identicos,
+        //        PvPick5Box30Way2Identicos = banking.PvPick5Box30Way2Identicos,
+        //        PvPick5Box60Way2Identicos = banking.PvPick5Box60Way2Identicos,
+        //        PvPick5Box120Way5Unicos = banking.PvPick5Box120Way5Unicos,
+        //        User = banking.User,
+        //        Status = banking.Status
+        //    };
+        //}
 
-        // POST: Bankings/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var banking = await _context.Bankings.FindAsync(id);
-            _context.Bankings.Remove(banking);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //public IActionResult BancaNotFound()
+        //{
+        //    return View();
+        //}
 
-        private bool BankingExists(int id)
-        {
-            return _context.Bankings.Any(e => e.Id == id);
-        }
+        //public IActionResult CreateHour()
+        //{
+        //    var model = new HourViewModel
+        //    {
+        //        Timer = null,
+        //        ListBanking = _bankingRepository.GetComboBancas()
+        //    };
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> CreateHour(LottBanking banking)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var company = await _companyRepository.GetCompany(1);
+
+        //        // TODO: Pending to change to: this.User.Identity.Name
+        //        banking.User = await _userHelper.GetUserByEmailAsync("paulinoenrique@gmail.com");
+        //        banking.IdType = company.IdType;
+        //        banking.FechaHora = DateTime.UtcNow;
+        //        await _bankingRepository.CreateAsync(banking);
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(banking);
+        //}
+
+        //public IActionResult MakePlay()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> MakePlay(LottBanking banking)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var company = await _companyRepository.GetCompany(1);
+
+        //        // TODO: Pending to change to: this.User.Identity.Name
+        //        banking.User = await _userHelper.GetUserByEmailAsync("paulinoenrique@gmail.com");
+        //        banking.IdType = company.IdType;
+        //        banking.FechaHora = DateTime.UtcNow;
+        //        await _bankingRepository.CreateAsync(banking);
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(banking);
+        //}
+
+        //public IActionResult CreateZone()
+        //{
+        //    return View(_lotteryRepository.GetAll());
+        //}
     }
 }

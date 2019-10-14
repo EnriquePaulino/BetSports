@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BetSports.Web.Data.Entities
 {
     public class BankingSetting
     {
         public int Id { get; set; }
-
-        public Banking Banking { get; set; }
 
         [Display(Name = "Minutes to Cancel Ticket")]
         public int MinutesCancelTicket { get; set; }
@@ -60,5 +59,7 @@ namespace BetSports.Web.Data.Entities
         public int ShowBalanceSalesTransactions { get; set; }
 
         public Zone Zone { get; set; }
+
+        public ICollection<Banking> Bankings { get; set; }
     }
 }

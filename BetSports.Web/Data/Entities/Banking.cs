@@ -1,9 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BetSports.Web.Data.Entities
 {
-    public class Banking
+    public class Banking : IEntity
     {
+        [Required] 
+        public int IdType { get; set; }
+
         public int Id { get; set; }
 
         [Display(Name = "Document")]
@@ -41,6 +45,10 @@ namespace BetSports.Web.Data.Entities
         [MaxLength(30)]
         public string FifthFooter { get; set; }
 
+        [Display(Name = "Full Document")]
+        public string FullDocument => $"{IdType} - {Id} - {Document}";
+
+
 
 
 
@@ -59,5 +67,11 @@ namespace BetSports.Web.Data.Entities
         public BankMaintenanceMode BankMaintenanceMode { get; set; }
 
         public Schedule Schedule { get; set; }
+
+
+        public User User { get; set; }
+
+        public DateTime? FechaHora { get; set; }
+
     }
 }
