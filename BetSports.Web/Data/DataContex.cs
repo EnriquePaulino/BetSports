@@ -1,4 +1,5 @@
-﻿using BetSports.Web.Data.Entities;
+﻿using System.Collections.Generic;
+using BetSports.Web.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,7 +38,6 @@ namespace BetSports.Web.Data
         public DbSet<TypePlay> TypePlays { get; set; }
 
         public DbSet<Zone> Zones { get; set; }
-
-
+        public IEnumerable<object> Banking { get; internal set; }
     }
 }

@@ -1,13 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BetSports.Web.Data.Entities
 {
     public class Banking : IEntity
     {
-        [Required] 
-        public int IdType { get; set; }
-
         public int Id { get; set; }
 
         [Display(Name = "Document")]
@@ -30,48 +28,51 @@ namespace BetSports.Web.Data.Entities
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Location { get; set; }
 
-        [MaxLength(30)]
-        public string FirstFooter { get; set; }
+        //[MaxLength(30)]
+        //public string FirstFooter { get; set; }
 
-        [MaxLength(30)]
-        public string SecondFooter { get; set; }
+        //[MaxLength(30)]
+        //public string SecondFooter { get; set; }
 
-        [MaxLength(30)]
-        public string ThirdFooter { get; set; }
+        //[MaxLength(30)]
+        //public string ThirdFooter { get; set; }
 
-        [MaxLength(30)]
-        public string FourthFooter { get; set; }
+        //[MaxLength(30)]
+        //public string FourthFooter { get; set; }
 
-        [MaxLength(30)]
-        public string FifthFooter { get; set; }
+        //[MaxLength(30)]
+        //public string FifthFooter { get; set; }
 
-        [Display(Name = "Full Document")]
-        public string FullDocument => $"{IdType} - {Id} - {Document}";
-
-
+        //[Display(Name = "Full Document")]
+        //public string FullDocument => $"{IdType}-{Id}-{string.Format("{000}", Document)}";
 
 
 
-        public Zone Zone { get; set; }
-
-        public Commission Commission { get; set; }
-
-        public BankingRule BankingRule { get; set; }
-
-        public BankingException BankingException { get; set; }
-
-        public Language Language { get; set; }
-
-        public BankingSetting BankingSetting { get; set; }
-
-        public BankMaintenanceMode BankMaintenanceMode { get; set; }
-
-        public Schedule Schedule { get; set; }
 
 
-        public User User { get; set; }
+        //public Zone Zone { get; set; }
 
-        public DateTime? FechaHora { get; set; }
+        //public Commission Commission { get; set; }
+
+        //public BankingRule BankingRule { get; set; }
+
+        //public BankingException BankingException { get; set; }
+
+        //public Language Language { get; set; }
+
+        //public BankingSetting BankingSetting { get; set; }
+
+        //public BankMaintenanceMode BankMaintenanceMode { get; set; }
+
+        //public Schedule Schedule { get; set; }
+
+
+        public ICollection<BankingSetting> BankingSetting { get; set; }
+
+
+        //public User User { get; set; }
+
+        //public DateTime? FechaHora { get; set; }
 
     }
 }

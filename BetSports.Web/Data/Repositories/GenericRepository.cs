@@ -26,6 +26,12 @@ namespace BetSports.Web.Data.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
+        public async Task<T> GetMaxIdBankingAsync()
+        {
+            return await _dataContext.Set<T>()
+                .AsNoTracking()
+                .MaxAsync();
+        }
         public async Task CreateAsync(T entity)
         {
             await _dataContext.Set<T>().AddAsync(entity);
@@ -47,7 +53,6 @@ namespace BetSports.Web.Data.Repositories
         public async Task<bool> ExistAsync(int id)
         {
             return await _dataContext.Set<T>().AnyAsync(e => e.Id == id);
-
         }
 
         public async Task<bool> SaveAllAsync()

@@ -1,9 +1,14 @@
-﻿using BetSports.Web.Data.Entities;
+﻿using BetSports.Web.Data;
+using BetSports.Web.Data.Entities;
 using BetSports.Web.Data.Repositories;
 using BetSports.Web.Helpers;
+using BetSports.Web.Models;
+using IBSApp.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BetSports.Web.Controllers
@@ -11,18 +16,24 @@ namespace BetSports.Web.Controllers
     [Authorize]
     public class BankingsController : Controller
     {
+        private readonly DataContext _dataContext;
         private readonly IBankingRepository _bankingRepository;
         private readonly IUserHelper _userHelper;
         private readonly ICompanyRepository _companyRepository;
+        private readonly IConverterHelper _converterHelper;
 
         public BankingsController(
+            DataContext dataContext,
             IBankingRepository bankingRepository,
             IUserHelper userHelper,
-            ICompanyRepository companyRepository)
+            ICompanyRepository companyRepository,
+            IConverterHelper converterHelper)
         {
+            _dataContext = dataContext;
             _bankingRepository = bankingRepository;
             _userHelper = userHelper;
             _companyRepository = companyRepository;
+            _converterHelper = converterHelper;
         }
 
         public IActionResult Index()
@@ -30,15 +41,18 @@ namespace BetSports.Web.Controllers
             return View(_bankingRepository.GetAll());
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            //var model = new BankingViewModel
-            //{
+            var banking = await _dataContext.Bankings.LastAsync();
 
-            //    ListZone = _bankingRepository.GetComboZonas()
-            //};
+            //var _model = _converterHelper.ToMaxIdBankingAsync(banking);
 
-            return View();
+            var model = new BankingViewModel
+            {
+                Document = $"{banking.Document}"
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -49,31 +63,41 @@ namespace BetSports.Web.Controllers
             {
                 var company = await _companyRepository.GetCompany(1);
 
-                banking.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-                banking.IdType = company.IdType;
-                banking.FechaHora = DateTime.UtcNow;
+                //banking.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                //banking.IdType = company.IdType;
+                //banking.FechaHora = DateTime.UtcNow;
                 await _bankingRepository.CreateAsync(banking);
                 return RedirectToAction(nameof(Index));
             }
             return View(banking);
         }
 
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new NotFoundViewResult("BankingNotFound");
-        //    }
 
-        //    var banca = await _bankingRepository.GetByIdAsync(id.Value);
-        //    if (banca == null)
-        //    {
-        //        return new NotFoundViewResult("BankingNotFound");
-        //    }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("BankingNotFound");
+            }
 
-        //    var view = this.ToBancaViewModel(banca);
-        //    return View(view);
-        //}
+            //var banking = await _dataContext.Bankings
+            //   .Include(b => b.BankingSetting)
+            //   .FirstOrDefaultAsync(b => b.Id == id);
+
+            //if (banking == null)
+            //{
+            //    return null;
+            //}
+            //return null;
+
+            var model = await _converterHelper.ToBankingDataAsync(id.Value);
+            if (model == null)
+            {
+                return new NotFoundViewResult("BankingNotFound");
+            }
+
+            return View(model);
+        }
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]

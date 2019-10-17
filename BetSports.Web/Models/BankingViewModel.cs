@@ -1,40 +1,68 @@
 ﻿using BetSports.Web.Data.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BetSports.Web.Models
 {
-    public class BankingViewModel
+    public class BankingViewModel : Banking
     {
-        public Banking Banking { get; set; }
+        [Display(Name = "Document")]
+        [MaxLength(20, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        public string Document { get; set; }
 
-        public BankingSetting BankingSetting { get; set; }
+        [Display(Name = "Name")]
+        [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        public string Name { get; set; }
 
-        public Company Company { get; set; }
+        [Display(Name = "Owner")]
+        [MaxLength(50, ErrorMessage = "The field {0} only can contain {1} characters length.")]
+        [Required]
+        public string Owner { get; set; }
 
-        public BankingException BankingException { get; set; }
+        [Display(Name = "Location")]
+        [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        public string Location { get; set; }
 
-        public BankingRule BankingRule { get; set; }
+        //[Display(Name = "First Footer")]
+        //[MaxLength(30)]
+        //public string FirstFooter { get; set; }
 
-        public BankMaintenanceMode BankMaintenanceMode { get; set; }
+        //[Display(Name = "Second Footer")]
+        //[MaxLength(30)]
+        //public string SecondFooter { get; set; }
 
-        public Commission Commission { get; set; }
+        //[Display(Name = "Third Footer")]
+        //[MaxLength(30)]
+        //public string ThirdFooter { get; set; }
 
-        public DrawerPoint DrawerPoint { get; set; }
+        //[Display(Name = "Fourth Footer")]
+        //[MaxLength(30)]
+        //public string FourthFooter { get; set; }
 
-        public League League { get; set; }
+        //[Display(Name = "Fifth Footer")]
+        //[MaxLength(30)]
+        //public string FifthFooter { get; set; }
 
-        public Language Language { get; set; }
-
-        public Manager Manager { get; set; }
-
-        public Schedule Schedule { get; set; }
-
-        public TypePlay TypePlay { get; set; }
-
-        public Zone Zone { get; set; }
+        //[Display(Name = "Full Document")]
+        //public string FullDocument => $"{IdType}-{Id}-{Document}";
 
 
-        public IEnumerable<SelectListItem> ListBanking { get; set; }
+        //// BankingSetting
+        //public int BankingSettingId { get; set; }
+
+        //[Display(Name = "Minutes to Cancel Ticket")]
+        //public int MinutesCancelTicket { get; set; }
+
+        //[Display(Name = "Maximum Tickets to Cancel per day")]
+        //public int MaximumTicketsCancelDay { get; set; }
+
+        //[Display(Name = "Minimum Ticket Amount")]
+        //public decimal MinimumTicketAmount { get; set; }
+
+        ////public IEnumerable<SelectListItem> ListBanking { get; set; }
     }
 }

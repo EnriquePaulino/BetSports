@@ -9,6 +9,8 @@ namespace BetSports.Web.Data.Repositories
 
         Task<T> GetByIdAsync(int id);
 
+        Task<T> GetMaxIdBankingAsync();
+
         Task CreateAsync(T entity);
 
         Task UpdateAsync(T entity);

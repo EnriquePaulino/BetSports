@@ -1,6 +1,5 @@
 ﻿using BetSports.Web.Data.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+using BetSports.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,43 +15,52 @@ namespace BetSports.Web.Data.Repositories
             _dataContext = dataContext;
         }
 
-        public IEnumerable<SelectListItem> GetComboBancas()
-        {
-            var list = _dataContext.Bankings.Select(c => new SelectListItem
-            {
-                Text = c.Name,
-                Value = c.Id.ToString()
-            }).OrderBy(l => l.Text).ToList();
+        //public BankingViewModel GetMaxIdBancking(int? idType)
+        //{
+        //    //int Document = (from b in _dataContext.Bankings select b.Id).Max();
+        //    //var document = _dataContext.Bankings.Where(c => c.IdType == idType).Select(c => c.Id).Max();
+        //    //var document = _dataContext.Bankings.Select(p => p.Id).Max();
+        //    int document = _dataContext.Bankings.Select(p => p.Id).Cast<int?>().Max() ?? 0;
 
-            list.Insert(0, new SelectListItem
-            {
-                Text = "(Seleciona una Banca...)",
-                Value = "0"
-            });
+        //    return new BankingViewModel
+        //    {
+        //        Document = $"{document}"
+        //    };
+        //}
 
-            return list;
-        }
+        //public async Task<BankingViewModel> GetMaxIdBancking()
+        //{
+        //    return new BankingViewModel
+        //    {
+        //        Document = product.Id,
+        //        IsAvailabe = product.IsAvailabe,
+        //        LastPurchase = product.LastPurchase,
+        //        LastSale = product.LastSale,
+        //        ImageUrl = product.ImageUrl,
+        //        Name = product.Name,
+        //        Price = product.Price,
+        //        Stock = product.Stock,
+        //        User = product.User
+        //    };
 
-        public IEnumerable<SelectListItem> GetComboZonas()
-        {
-            var list = _dataContext.Zones.Select(c => new SelectListItem
-            {
-                Text = c.Name,
-                Value = c.Id.ToString()
-            }).OrderBy(l => l.Text).ToList();
+        //    return document;
+        //}
 
-            list.Insert(0, new SelectListItem
-            {
-                Text = "(Seleciona una Zona...)",
-                Value = "0"
-            });
 
-            return list;
-        }
-
-        public IEnumerable<SelectListItem> GetComboZonas(int zonaId)
-        {
-            throw new System.NotImplementedException();
-        }
+        //private ProductViewModel ToProductViewModel(Product product)
+        //{
+        //    return new ProductViewModel
+        //    {
+        //        Id = product.Id,
+        //        IsAvailabe = product.IsAvailabe,
+        //        LastPurchase = product.LastPurchase,
+        //        LastSale = product.LastSale,
+        //        ImageUrl = product.ImageUrl,
+        //        Name = product.Name,
+        //        Price = product.Price,
+        //        Stock = product.Stock,
+        //        User = product.User
+        //    };
+        //}
     }
 }
